@@ -12,7 +12,6 @@ known-first-party = ["src"]
 [tool.mypy]
 python_version = "3.13"
 strict = true
-ignore_missing_imports = true
 check_untyped_defs = true
 disallow_untyped_defs = true
 disallow_incomplete_defs = true
@@ -24,3 +23,7 @@ show_error_codes = true
 plugins = "pydantic.mypy"
 pretty = true
 files = ["src"]
+
+[[tool.mypy.overrides]]
+module = "mongoengine.*"
+ignore_missing_imports = true
