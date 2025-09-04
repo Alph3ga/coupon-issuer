@@ -6,22 +6,18 @@ from src.dtos.user import UserDTO
 
 
 class User(Document):
-    meta = {"indexes": [{"fields": ["userId", "deleted"]}, {"fields": ["flatNumber", "deleted"]}]}
-    userId = StringField(required=True, unique=True)
-    name = StringField(required=True)
-    phoneNumber = StringField()
+    meta = {"indexes": [{"fields": ["flatNumber", "deleted"]}]}
     flatNumber = StringField(required=True)
-    hashedPass = BinaryField(required=True)
+    email = StringField()
+    hashedPass = BinaryField()
     isAdmin = BooleanField(default=False)
     createdAt = DateTimeField(default=datetime.utcnow)
     deleted = BooleanField(default=False)
 
     def toDTO(self) -> UserDTO:
         return UserDTO(
-            userId=self.userId,
-            name=self.name,
-            phoneNumber=self.phoneNumber,
             flatNumber=self.flatNumber,
+            email=self.email,
             hashedPass=self.hashedPass,
             isAdmin=self.isAdmin,
         )

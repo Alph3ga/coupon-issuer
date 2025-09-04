@@ -2,9 +2,7 @@ from pydantic import BaseModel
 
 
 class UserDTO(BaseModel):
-    userId: str
-    name: str
-    phoneNumber: str | None = None
+    email: str | None
     flatNumber: str
-    hashedPass: bytes
+    hashedPass: bytes | None
     isAdmin: bool
