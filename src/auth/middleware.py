@@ -1,6 +1,7 @@
 # src/middleware/jwt_auth.py
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
 from typing import Annotated, cast
 
@@ -11,6 +12,8 @@ from starlette.responses import Response
 from starlette.types import ASGIApp
 
 from src.auth.utils import validate_jwt
+
+log = logging.Logger(__name__)
 
 
 @dataclass(frozen=True)
@@ -30,6 +33,10 @@ class JWTAuthMiddleware(BaseHTTPMiddleware):
 
         # If no auth header or not Bearer, just continue without claims.
         if not authorization or scheme.lower() != "bearer" or not token:
+            log.warning(
+                "Authorization token not present for user, requesting"
+                f"{request.method} {request.url}"
+            )
             return await call_next(request)
 
         try:
@@ -43,6 +50,10 @@ class JWTAuthMiddleware(BaseHTTPMiddleware):
                 or not isinstance(is_admin, bool)
                 or not isinstance(user_id, str)
             ):
+                log.error(
+                    f"Invalid claims attached to request: {request.method} {request.url}\n \
+                    Token: {token}"
+                )
                 raise ValueError("Missing or invalid claims in token")
 
             # Attach typed claims to request.state
@@ -61,6 +72,7 @@ def get_current_user(request: Request) -> UserClaims:
     """Dependency that returns typed user claims"""
     claims = cast(UserClaims | None, getattr(request.state, "user_claims", None))
     if claims is None:
+        log.warning("User claims not valid/not found, redirected to log in page")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User not logged in",

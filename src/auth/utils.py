@@ -22,15 +22,15 @@ def create_jwt(
         "user_id": user_id,
         "exp": expire,
     }
+    assert JWT_SECRET_KEY
     return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=ALGORITHM)
 
 
 def validate_jwt(token: str) -> dict[str, str | bool]:
     """Validate a JWT and return the decoded payload if valid. Raises jwt exceptions if invalid."""
     try:
-        print(token)
+        assert JWT_SECRET_KEY
         payload = jwt.decode(token, JWT_SECRET_KEY, algorithms=[ALGORITHM])
-        print(payload)
         flat_number: str = payload.get("flat_number")
         is_admin: bool = payload.get("is_admin")
         user_id: str = payload.get("user_id")

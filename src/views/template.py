@@ -3,7 +3,8 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException, status
 
 from src.auth.middleware import UserClaims, get_current_user, require_admin
-from src.coupon.template import get_or_none_template, upsert_template
+from src.coupon.template import upsert_template
+from src.datastore.coupon_template import get_or_none_template
 from src.views.body.template import PriceBody, PriceResponse, TemplateBody
 
 router = APIRouter(tags=["template"])
@@ -26,3 +27,4 @@ def get_template_price(body: PriceBody) -> PriceResponse:
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"The template for {body.food_preference} {body.coupon_type} does not exist",
         )
+    return PriceResponse(price=template.price)

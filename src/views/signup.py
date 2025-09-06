@@ -31,7 +31,11 @@ def signup(body: SignupBody) -> TokenResponse:
 
     hashedPass = encyptPassword(body.password) if body.password else None
     userDTO = UserDTO(
-        flatNumber=cleanedFlatNumber, email=body.email, hashedPass=hashedPass, isAdmin=False
+        id="placeholder",
+        flatNumber=cleanedFlatNumber,
+        email=body.email,
+        hashedPass=hashedPass,
+        isAdmin=False,
     )
     user_id = create_user(userDTO)
 
@@ -61,7 +65,7 @@ def login(body: LoginBody) -> TokenResponse:
     if existing.hashedPass is None:
         return response
 
-    if checkPassword(body.password, existing.hashedPass):
+    if body.password and checkPassword(body.password, existing.hashedPass):
         return response
 
     raise HTTPException(

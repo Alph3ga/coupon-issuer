@@ -16,8 +16,6 @@ class CouponTemplate(Document):
     createdBy = ReferenceField(User)
 
     def to_dto(self) -> CouponTemplateDTO:
-        from src.dtos.coupon_template_dto import CouponTemplateDTO
-
         return CouponTemplateDTO(
             id=str(self.id),
             coupon_type=self.couponType,

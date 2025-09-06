@@ -1,21 +1,27 @@
 import re
+from email.utils import parseaddr
 
 
 def validate_user_info(
     flat_number: str,
-    password: str,
-    email: str,
+    password: str | None,
+    email: str | None,
 ) -> tuple[bool, str]:
     # Validate flat number: must be alphanumeric like "12B", "A1", etc.
     if not re.fullmatch(r"[A-Za-z0-9]+", flat_number):
         return False, "Flat number must be alphanumeric with no special characters or spaces."
 
     # Validate password: minimum 8 characters, at least one number and one letter
-    if len(password) < 8 or not re.search(r"[A-Za-z]", password) or not re.search(r"\d", password):
+    if password and (
+        len(password) < 8 or not re.search(r"[A-Za-z]", password) or not re.search(r"\d", password)
+    ):
         return (
             False,
             "Password must be at least 8 characters long and contain both letters and numbers.",
         )
+
+    if email and "@" not in parseaddr(email)[1]:
+        return (False, "Email address is not valid, kindly re-check.")
 
     return True, ""
 

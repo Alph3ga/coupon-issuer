@@ -26,8 +26,8 @@ def get_or_none_template(
 
 
 def get_template_by_id(template_id: str) -> CouponTemplateDTO:
-    template = CouponTemplate.objects.get(id=template_id)
-    return template.to_dto() if template else None
+    template: CouponTemplate = CouponTemplate.objects.get(id=template_id)
+    return template.to_dto()
 
 
 def edit_template_price(

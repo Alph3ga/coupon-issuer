@@ -51,13 +51,13 @@ def get_coupons_by_batch(batch_code: str) -> list[CouponDTO]:
 
 
 def get_coupons_by_user(user_id: str) -> list[CouponDTO]:
-    coupons = Coupon.objects(bookedBy=user_id)
+    coupons = Coupon.objects.filter(bookedBy=user_id)
     return [c.to_dto() for c in coupons]
 
 
 def get_coupon_by_id(id: str) -> CouponDTO:
-    coupon = Coupon.objects().get(id=id)
-    return coupon.to_dto() if coupon else None
+    coupon: Coupon = Coupon.objects().get(id=id)
+    return coupon.to_dto()
 
 
 def get_coupons_by_day(day: date) -> list[CouponDTO]:

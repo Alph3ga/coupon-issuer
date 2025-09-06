@@ -26,7 +26,7 @@ class Coupon(Document):
 
     def to_dto(self) -> CouponDTO:
         return CouponDTO(
-            id=self.id,
+            id=str(self.id),
             day=self.day,
             template_id=str(self.template.id) if self.template else None,
             booked_by=str(self.bookedBy.id),

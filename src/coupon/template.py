@@ -19,7 +19,11 @@ def upsert_template(
         return
 
     dto = CouponTemplateDTO(
-        coupon_type=couponType, food_preference=foodPreference, price=price, created_by=user_id
+        id="placeholder",
+        coupon_type=couponType,
+        food_preference=foodPreference,
+        price=price,
+        created_by=user_id,
     )
 
     create_template(dto)
@@ -30,5 +34,7 @@ def does_template_exist(foodPreference: FoodPreference, couponType: CouponType) 
 
 
 def get_price(foodPreference: FoodPreference, couponType: CouponType) -> int:
-    template: CouponTemplateDTO = get_or_none_template(foodPreference, couponType)
+    template = get_or_none_template(foodPreference, couponType)
+    if not template:
+        raise ValueError(f"Template does not exist for {couponType} {foodPreference}")
     return template.price

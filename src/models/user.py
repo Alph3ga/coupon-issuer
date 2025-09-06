@@ -16,6 +16,7 @@ class User(Document):
 
     def toDTO(self) -> UserDTO:
         return UserDTO(
+            id=str(self.id),
             flatNumber=self.flatNumber,
             email=self.email,
             hashedPass=self.hashedPass,

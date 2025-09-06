@@ -16,7 +16,7 @@ def create_user(user: UserDTO) -> str:
 
 
 def getUserByUserId(userId: str) -> UserDTO:
-    userDocument: User = User.objects.get(userId=userId, deleted=False)
+    userDocument: User = User.objects.get(id=userId, deleted=False)
     return userDocument.toDTO()
 
 

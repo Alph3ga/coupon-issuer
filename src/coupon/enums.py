@@ -7,8 +7,9 @@ class FoodPreference(StrEnum):
 
 
 class CouponType(StrEnum):
-    CHILD = auto()
-    ADULT = auto()
+    BREAKFAST = auto()
+    LUNCH = auto()
+    DINNER = auto()
 
 
 class CouponStatus(StrEnum):
