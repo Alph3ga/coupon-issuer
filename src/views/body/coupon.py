@@ -29,6 +29,7 @@ class CouponResponse(BaseModel):
     status: CouponStatus
     price: int
     booked_on: date
+    booked_by: str
 
 
 class CouponList(BaseModel):

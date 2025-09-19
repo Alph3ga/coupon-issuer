@@ -71,6 +71,7 @@ def get_coupons_for_user(
                 status=coupon_status,
                 price=template.price,
                 booked_on=coupon.booked_on,
+                booked_by=user.flatNumber,
             )
         )
         total_price += template.price
@@ -133,6 +134,7 @@ def get_all_coupons(
     for coupon in coupons:
         template = get_template_by_id(coupon.template_id)
         coupon_status = get_coupon_status(coupon.id)
+        user = getUserByUserId(coupon.booked_by)
         coupon_list.append(
             CouponResponse(
                 coupon_id=coupon.id,
@@ -142,6 +144,7 @@ def get_all_coupons(
                 status=coupon_status,
                 price=template.price,
                 booked_on=coupon.booked_on,
+                booked_by=user.flatNumber,
             )
         )
         total_price += template.price

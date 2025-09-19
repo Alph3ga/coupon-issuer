@@ -44,3 +44,8 @@ def delete_template(foodPreference: FoodPreference, couponType: CouponType) -> N
         foodPreference=foodPreference,
         couponType=couponType,
     ).delete()
+
+
+def get_all_templates() -> list[CouponTemplateDTO]:
+    templates: list[CouponTemplate] = CouponTemplate.objects.all()
+    return [t.to_dto() for t in templates]
